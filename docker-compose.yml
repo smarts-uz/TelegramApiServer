@@ -5,10 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      network: host
     init: true
     restart: unless-stopped
-    networks:
-      - host
+    network_mode: "host"
     ports:
       - "127.0.0.1:9503:9503"
     volumes:
@@ -35,8 +35,6 @@ services:
     environment:
       MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
       MARIADB_AUTO_UPGRADE: 'yes'
-    networks:
-      - host
     command:
      - --skip-grant-tables
      - --innodb-buffer-pool-size=128M
