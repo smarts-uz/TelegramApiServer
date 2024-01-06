@@ -1,3 +1,4 @@
+version: "3.0"
 services:
   api:
     image: xtrime/telegram-api-server:latest
@@ -6,6 +7,8 @@ services:
       dockerfile: Dockerfile
     init: true
     restart: unless-stopped
+    networks:
+      - host
     ports:
       - "127.0.0.1:9503:9503"
     volumes:
@@ -32,10 +35,14 @@ services:
     environment:
       MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
       MARIADB_AUTO_UPGRADE: 'yes'
+    networks:
+      - host
     command:
      - --skip-grant-tables
      - --innodb-buffer-pool-size=128M
      - --wait_timeout=65
+
 networks:
-  default:
-    name: telegram-api-server
+    host:
+        name: host
+        external: true
